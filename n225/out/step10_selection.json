@@ -1,0 +1,62 @@
+{
+  "n_candidates": 6912,
+  "n_pass": 5,
+  "gate_pass_counts": {
+    "G1": 3679,
+    "G2": 480,
+    "G3": 2162,
+    "G4": 677,
+    "G5": 566,
+    "G6": 1734,
+    "G7": 4744
+  },
+  "choice": {
+    "id": "M4r|N10|K3|th0.2|g0.05|none",
+    "family": "M4r",
+    "N": 10,
+    "K": 3,
+    "theta": 0.2,
+    "gmax": 0.05,
+    "regime": "none",
+    "sharpe": 0.5956034357797851,
+    "cagr": 0.0930953623843358,
+    "mdd": -0.3447354937904414,
+    "expectancy": 0.0053331238858631,
+    "exp_ci_lo": 0.0010510124896205,
+    "n_trades": 8419,
+    "trades_per_year": 589.1663426825882,
+    "pos_year_ratio": 0.8,
+    "max_year_share": 0.2674238402148605,
+    "top5_stock_share": 0.1848451540597533,
+    "expectancy_ex_top1pct": 0.0036438453464319,
+    "nobuy_ratio": 0.0315554314437308,
+    "invested": 0.7125455430593413,
+    "win_rate": 0.5208457061408719,
+    "profit_factor": 1.2598978548753974,
+    "b1_percentile": 100.0,
+    "expectancy_cost2": 0.00238850034927,
+    "sharpe_cost2": 0.3308690955688887,
+    "max_sector_share": 0.2322484331640362,
+    "b7_sharpe": 0.2275681059182914,
+    "b7_diff_ci_lo": 6.16808482816563e-05,
+    "b7_diff_ci_hi": 0.000377185696192,
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "G4": true,
+    "G5": true,
+    "G6": true,
+    "G7": true,
+    "pass": true
+  },
+  "selection": {
+    "order": [
+      "M4r|N10|K3|th0.2|g0.05|none",
+      "M4r|N10|K3|th0.1|g0.05|none",
+      "M4r|N10|K3|th0.1|g0.08|none",
+      "M4r|N10|K3|th0.1|g0.03|none",
+      "M4r|N10|K3|th0.2|g0.03|none"
+    ],
+    "notes": []
+  }
+}

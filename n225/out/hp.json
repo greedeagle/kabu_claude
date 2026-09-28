@@ -1,0 +1,128 @@
+{
+  "reg_1": {
+    "num_leaves": 25,
+    "learning_rate": 0.06110324927942078,
+    "min_data_in_leaf": 1570,
+    "feature_fraction": 0.5512454530702183
+  },
+  "clf_1": {
+    "num_leaves": 9,
+    "learning_rate": 0.027471251174267495,
+    "min_data_in_leaf": 1593,
+    "feature_fraction": 0.843439167964553
+  },
+  "rank_1": {
+    "num_leaves": 25,
+    "learning_rate": 0.06110324927942078,
+    "min_data_in_leaf": 1570,
+    "feature_fraction": 0.5512454530702183
+  },
+  "m3_1": {
+    "C": 1.0
+  },
+  "reg_2": {
+    "num_leaves": 9,
+    "learning_rate": 0.012421594505344207,
+    "min_data_in_leaf": 1455,
+    "feature_fraction": 0.8902489406547024
+  },
+  "clf_2": {
+    "num_leaves": 25,
+    "learning_rate": 0.06110324927942078,
+    "min_data_in_leaf": 1570,
+    "feature_fraction": 0.5512454530702183
+  },
+  "rank_2": {
+    "num_leaves": 25,
+    "learning_rate": 0.06110324927942078,
+    "min_data_in_leaf": 1570,
+    "feature_fraction": 0.5512454530702183
+  },
+  "m3_2": {
+    "C": 0.01
+  },
+  "reg_3": {
+    "num_leaves": 9,
+    "learning_rate": 0.012421594505344207,
+    "min_data_in_leaf": 1455,
+    "feature_fraction": 0.8902489406547024
+  },
+  "clf_3": {
+    "num_leaves": 26,
+    "learning_rate": 0.06649080841592168,
+    "min_data_in_leaf": 1359,
+    "feature_fraction": 0.6773656795309324
+  },
+  "rank_3": {
+    "num_leaves": 25,
+    "learning_rate": 0.06110324927942078,
+    "min_data_in_leaf": 1570,
+    "feature_fraction": 0.5512454530702183
+  },
+  "m3_3": {
+    "C": 0.01
+  },
+  "reg_5": {
+    "num_leaves": 9,
+    "learning_rate": 0.027471251174267495,
+    "min_data_in_leaf": 1593,
+    "feature_fraction": 0.843439167964553
+  },
+  "clf_5": {
+    "num_leaves": 9,
+    "learning_rate": 0.027471251174267495,
+    "min_data_in_leaf": 1593,
+    "feature_fraction": 0.843439167964553
+  },
+  "rank_5": {
+    "num_leaves": 25,
+    "learning_rate": 0.06110324927942078,
+    "min_data_in_leaf": 1570,
+    "feature_fraction": 0.5512454530702183
+  },
+  "m3_5": {
+    "C": 0.01
+  },
+  "reg_10": {
+    "num_leaves": 26,
+    "learning_rate": 0.06649080841592168,
+    "min_data_in_leaf": 1359,
+    "feature_fraction": 0.6773656795309324
+  },
+  "clf_10": {
+    "num_leaves": 25,
+    "learning_rate": 0.06110324927942078,
+    "min_data_in_leaf": 1570,
+    "feature_fraction": 0.5512454530702183
+  },
+  "rank_10": {
+    "num_leaves": 9,
+    "learning_rate": 0.027471251174267495,
+    "min_data_in_leaf": 1593,
+    "feature_fraction": 0.843439167964553
+  },
+  "m3_10": {
+    "C": 0.01
+  },
+  "reg_20": {
+    "num_leaves": 9,
+    "learning_rate": 0.027471251174267495,
+    "min_data_in_leaf": 1593,
+    "feature_fraction": 0.843439167964553
+  },
+  "clf_20": {
+    "num_leaves": 26,
+    "learning_rate": 0.06649080841592168,
+    "min_data_in_leaf": 1359,
+    "feature_fraction": 0.6773656795309324
+  },
+  "rank_20": {
+    "num_leaves": 9,
+    "learning_rate": 0.012421594505344207,
+    "min_data_in_leaf": 1455,
+    "feature_fraction": 0.8902489406547024
+  },
+  "m3_20": {
+    "C": 0.1
+  }
+}

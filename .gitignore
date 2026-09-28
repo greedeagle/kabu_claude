@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.nbi
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# 取得データ・中間生成物（fetch / パイプラインで再生成可能）
+data/
+n225/data/
+n225/work_current_universe/
+
+# 実行ログ
+runs/
+logs/
+*.log
+
+# 大きなバイナリ出力（再生成可能）
+*.npy
+*.npz
+*.parquet
+*.csv
+
+# OS / エディタ
+.DS_Store
+.idea/
+.vscode/
+*.swp

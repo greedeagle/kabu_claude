@@ -1,0 +1,93 @@
+{
+  "raw_rows": 1673812,
+  "panel_rows": 1432543,
+  "n_codes_panel": 271,
+  "calendar_first": "2000-01-04",
+  "calendar_last": "2026-09-25",
+  "holdout_start": "2024-09-26",
+  "calendar_check": {
+    "expected_business_days": 6549,
+    "calendar_days": 6548,
+    "missing_vs_expected": {
+      "n": 1,
+      "sample": [
+        "2020-10-01"
+      ]
+    },
+    "extra_vs_expected": {
+      "n": 0,
+      "sample": []
+    }
+  },
+  "data_holes_all_untradable": [
+    "2000-05-09",
+    "2000-05-30",
+    "2000-10-16",
+    "2000-10-27",
+    "2001-03-14",
+    "2001-09-28",
+    "2001-11-09",
+    "2002-01-31",
+    "2002-08-23",
+    "2002-12-02",
+    "2009-09-01",
+    "2010-07-20",
+    "2010-09-15",
+    "2015-12-25",
+    "2016-07-11"
+  ],
+  "index_rows": 5563,
+  "index_first": "2004-01-05",
+  "index_missing_close_days": 0,
+  "index_missing_open_days": 3,
+  "etf1321_first": "2009-01-05",
+  "etf1321_untradable_days": 269,
+  "split_miss_suspects_after_clean": 7,
+  "clean": {
+    "spike_rows": "3",
+    "inferred_splits": 16,
+    "bad_open": 256,
+    "invalid_dividends_zeroed": [
+      [
+        "8766",
+        "2003-03-26",
+        "2319.368684570409"
+      ],
+      [
+        "8766",
+        "2004-03-26",
+        "2551.3053094937504"
+      ],
+      [
+        "8766",
+        "2005-03-28",
+        "1275.6526547468752"
+      ]
+    ]
+  },
+  "invalid_split_records_ignored": [
+    [
+      "8303",
+      "2023-09-28",
+      "5e-08"
+    ]
+  ],
+  "first_date_by_code_summary": {
+    "2004": 240,
+    "2005": 3,
+    "2006": 2,
+    "2007": 1,
+    "2008": 2,
+    "2009": 2,
+    "2010": 4,
+    "2011": 1,
+    "2013": 2,
+    "2014": 3,
+    "2015": 1,
+    "2016": 2,
+    "2018": 2,
+    "2022": 3,
+    "2024": 1,
+    "2025": 2
+  }
+}

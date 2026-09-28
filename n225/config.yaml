@@ -1,0 +1,147 @@
+# Step 0: 設定の確定（2026-09-27 確定。以後、合格ゲートは変更しない）
+# 対象: 各 t 日時点の日経225採用銘柄（ポイントインタイム、実施日基準）
+# 検証開始後の変更は trial_log.csv に「試行」として記録する。
+
+data:
+  source_prices: "Yahoo Finance (yfinance 1.x, auto_adjust=False) — 分割調整済み OHLCV・分割比率・配当"
+  source_constituents: "日本経済新聞社 日経平均プロフィル『日経平均株価銘柄変更履歴』PDF (2026/4/1現在版) + 現在の構成銘柄一覧ページ"
+  constituents_urls:
+    - "https://indexes.nikkei.co.jp/nkave/archives/file/history_of_nikkei_stock_average_component_changes_jp.pdf"
+    - "https://indexes.nikkei.co.jp/nkave/index/component?idx=nk225"
+  source_list: "JPX 東証上場銘柄一覧 data_j.xlsx（銘柄名・33業種。現時点のもの）"
+  fetched_at: {prices_yahoo_bulk: "2026-09-27 11:24〜12:56 (JST, ファイル更新時刻)", prices_yahoo_missing_225: "n225/data/fetch_log.jsonl (2026-09-27)", constituents_pdf_and_list: "2026-09-27T13:08:53Z (data/raw/n225/fetched_at.txt)", jpx_list: "2026-09-27 11:24"}
+  panel_start: "2004-01-01"        # 特徴量（250日）計算用の読み込み開始日
+  constituents_from: "2003-01-01"  # この日以降の入替イベントで構成を再構成（それ以前は現在構成から逆算した初期状態）
+  index_code: "IDX_N225"           # 日経平均株価（Yahoo ^N225）。特徴量・レジーム判定
+  etf_code: "1321"                 # 日経225連動ETF。L2 ラベルと B2
+  topix_proxy_code: "1306"         # TOPIX 連動ETF（TOPIX 指数の代替。NT倍率の計算のみ）
+
+# 既定値からの変更点と理由（Step 0 で記録）
+changes_from_default:
+  - item: 価格データ入手元
+    change: "J-Quants → Yahoo Finance"
+    reason: "J-Quants は APIキー（有料プランで長期履歴）が必要。この環境では APIキーなしで取得できる Yahoo を使用"
+  - item: 上場廃止銘柄の価格
+    change: "上場廃止済みの旧構成銘柄（38区間）は価格データなし。その銘柄はその期間 U(t) に入らない"
+    reason: "Yahoo は上場廃止銘柄のデータを提供しない（第3.4節: 欠落銘柄と期間を記録し「限界」に記載）"
+  - item: 入替の発表日
+    change: "発表日データなし。入替関連特徴量（除外発表済みフラグ・採用からの経過日数）は作成しない。構成判定は実施日のみで行う"
+    reason: "公式履歴PDFは実施日のみを掲載。第3.3節: 発表日時が確認できない情報は使わない"
+  - item: 銘柄マスタ・業種のポイントインタイム性
+    change: "業種（東証33業種）と銘柄名は現時点の JPX 一覧。上場日数は Yahoo データの初出日から数える"
+    reason: "無料の入手元に履歴がない"
+  - item: TOPIX
+    change: "TOPIX 指数の代わりに TOPIX連動ETF 1306 の終値を使って NT倍率（日経平均÷1306）の20日変化を計算"
+    reason: "Yahoo で TOPIX 指数が取得できない。1306 は 2001年から存在"
+  - item: 売買代金
+    change: "調整後終値 × 調整後出来高（= 未調整終値 × 未調整出来高）で近似"
+    reason: "Yahoo は売買代金を提供しない"
+  - item: 未調整価格
+    change: "調整後価格 × その日より後の分割比率の累積積 で復元"
+    reason: "Yahoo は分割調整後 OHLCV と分割比率のみ提供"
+  - item: 売買停止・整理・監理銘柄
+    change: "出来高0・データ欠落日を取引不可とする。整理・監理の指定は判定不可"
+    reason: "履歴データがない"
+  - item: ストップ高・安の判定
+    change: "東証の現行の値幅制限表を実装し、前日未調整終値を基準値として判定（寄り付きが制限値の0.1%以内ならストップ扱い）"
+    reason: "フラグの提供がない。過去の制限表の改定は反映しない"
+  - item: 閾値 θ の定義
+    change: "各日の U(t) 内でのスコア上位 x%（x ∈ {2,5,10,20}）。floor(x×|U(t)|) 銘柄、最低1銘柄"
+    reason: "期間全体のスコア分位点は検証期間内の将来のスコアを参照するため（P2）"
+  - item: Step 5 の評価期間
+    change: "最初のWFフォールドの学習期間（パージ後）のみで特徴量を評価・採用し、以後固定"
+    reason: "後のフォールドの検証期間の情報で特徴量を選ばないため"
+  - item: Step 5 の t 値
+    change: "Newey-West（ラグ = max(N, 5)）の HAC 標準誤差"
+    reason: "日次 IC の自己相関と N>1 のラベル重複を考慮（厳しくする方向）"
+  - item: B7 の数量
+    change: "B7 は参加率上限に加えて単元制約も無視（端株を許容）"
+    reason: "1,000万円・約225銘柄等金額では1銘柄あたり数万円となり、単元制約を課すと低位株だけの偏ったベンチマークになるため。制約を外すと B7 はむしろ強くなり、比較は厳しくなる"
+  - item: 配当
+    change: "Yahoo の配当（分割調整済み）を権利落ち日に加算"
+    reason: "データがあるため指示書の規定どおり"
+  - item: ハイパーパラメータ探索
+    change: "木モデルは最初のフォールドの学習期間内の時系列分割（パージつき）で選び、全フォールドで固定"
+    reason: "計算時間の制約。未来情報は使わない"
+  - item: 決算発表日・信用残
+    change: "使用しない"
+    reason: "無料で公表日時つきの履歴が得られないため"
+
+split:
+  holdout_months: 24
+  first_train_years: 5
+  fold_months: 6
+  n_candidates: [1, 2, 3, 5, 10, 20]
+  embargo_min: 5
+
+universe:
+  min_adv20_yen: 1.0e+8
+  min_close_unadj: 100
+  min_listed_days: 250
+
+trading:
+  initial_capital: 1.0e+7
+  capital_sensitivity: [1.0e+7, 3.0e+7, 1.0e+8]
+  K_candidates: [3, 5, 10]
+  theta_candidates: [0.02, 0.05, 0.10, 0.20]
+  gmax_candidates: [null, 0.03, 0.05, 0.08]
+  regime_candidates: ["none", "idx_above_sma200", "idx_vol_below_p80"]
+  fee_oneway: 0.0005
+  fee_sensitivity: [0.0, 0.0005, 0.0010]
+  cost_multipliers: [0.0, 1.0, 2.0]
+  slippage:            # 片道。t 日時点の ADV20（円）で判定
+    - {min_adv: 1.0e+10, rate: 0.0005}
+    - {min_adv: 3.0e+9, rate: 0.0008}
+    - {min_adv: 0.0, rate: 0.0015}
+  participation_cap: 0.01
+  lot: 100
+  risk_free: 0.0
+  tax: "考慮しない"
+
+seed: 42
+b1_trials: 1000
+hp_trials_per_family: 5   # LightGBM 系の探索（各 N × 各種別）。5 試行 × 6 N = 30 試行/ファミリー
+lgb_space: {num_leaves: [7, 31], learning_rate: [0.01, 0.1], min_data_in_leaf: [200, 2000], feature_fraction: [0.5, 0.9]}
+seed_sensitivity: [0, 1, 2, 3, 4]
+
+gates:   # すべて WF検証成績・コスト1倍で判定
+  G1_min_trades: 300
+  G1_min_trades_per_year: 30
+  G2_ci_lower_gt: 0.0
+  G3: "Sharpe > B1 の95パーセンタイル かつ > max(B3..B7) かつ B7 との日次リターン差のブロック・ブートストラップ95%CI下限 > 0"
+  G4_pos_year_ratio: 0.60
+  G4_max_year_share: 0.50
+  G5_top5_share_max: 0.30
+  G5_ex_top1pct_expectancy_gt: 0.0
+  G5_max_sector_share: 0.50
+  G6_cost2x_expectancy_gt: 0.0
+  G7_mdd_floor: -0.35
+selection:
+  simplicity_order: {M1: 1, M2a: 2, M2b: 2, M3: 3, M4r: 4, M4c: 4, M5: 4, M6: 5, M7: 5}
+  sharpe_margin: 0.2
+overfit_checks:
+  train_wf_ratio_min: 0.5
+  param_sensitivity_min: 0.7
+  seed_cv_max: 0.2
+  pbo_max: 0.5
+  pbo_S: 16
+  dsr_warn: 0.95
+holdout_pass:
+  cagr_gt: 0.0
+  sharpe_ratio_to_wf_min: 0.4
+  beat_b7_sharpe: true
+bootstrap:
+  block_len: 20
+  n_boot: 1000
+
+# ---- 実行時に確定した値（参考。out/ の各ファイルと同一） ----
+resolved:
+  analysis_start: "2005-01-07"
+  dev_end_signal: "2024-08-23"
+  holdout_start: "2024-09-26"
+  last_date: "2026-09-25"
+  holdout_purge_bdays: 21
+  wf_folds: "out/splits.json（30 フォールド: 2010-01-07 〜 2024-08-23、6か月ごと）"
+  adopted_features: "out/step5_adopted.json"
+  hyperparameters: "out/hp.json"
+  labels: {M1: L3, M2a: L3, M2b: L3, M3: L4, M4r: L3, M4c: L4, M5: "L3 の日次十分位ランク", M7: L3}

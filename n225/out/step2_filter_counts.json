@@ -1,0 +1,25 @@
+{
+  "member_rows": 1154737,
+  "excluded_not_tradable": 1160,
+  "excluded_adv_lt_1e8": 6391,
+  "excluded_close_lt_100": 5846,
+  "excluded_listed_lt_250d": 2845,
+  "excluded_listed_lt_250d_codes": [
+    "1333",
+    "1721",
+    "3289",
+    "3863",
+    "3864",
+    "5831",
+    "7012",
+    "7186",
+    "8306",
+    "8411",
+    "8630",
+    "8725",
+    "8750",
+    "9101",
+    "9147"
+  ],
+  "in_univ_rows": 1138495
+}
