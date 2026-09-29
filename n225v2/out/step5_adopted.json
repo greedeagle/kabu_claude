@@ -1,0 +1,53 @@
+{
+  "5": {
+    "features": [
+      "r_upper_sh"
+    ],
+    "sign": {
+      "r_upper_sh": 1.0
+    },
+    "ic_ir": {
+      "r_upper_sh": 0.07160355896487086
+    },
+    "dropped_by_corr": [],
+    "label": "LM",
+    "train_period": [
+      "2016-09-29",
+      "2020-08-26"
+    ]
+  },
+  "10": {
+    "features": [
+      "r_upper_sh"
+    ],
+    "sign": {
+      "r_upper_sh": 1.0
+    },
+    "ic_ir": {
+      "r_upper_sh": 0.07160355896487086
+    },
+    "dropped_by_corr": [],
+    "label": "LM",
+    "train_period": [
+      "2016-09-29",
+      "2020-08-26"
+    ]
+  },
+  "20": {
+    "features": [
+      "r_upper_sh"
+    ],
+    "sign": {
+      "r_upper_sh": 1.0
+    },
+    "ic_ir": {
+      "r_upper_sh": 0.07160355896487086
+    },
+    "dropped_by_corr": [],
+    "label": "LM",
+    "train_period": [
+      "2016-09-29",
+      "2020-08-26"
+    ]
+  }
+}

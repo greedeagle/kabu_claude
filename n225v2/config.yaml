@@ -1,0 +1,126 @@
+# n225v2 — Step 0: 設定の確定（事前登録。2026-09-29 確定。以後、合格ゲート・テスト合格基準は変更しない）
+# 対象: 各 t 日時点の日経225採用銘柄（ポイントインタイム、実施日基準）
+# 前回（n225/, 2026-09-27）の結論「運用可能モデルなし」を受けた改善版。改善点は changes_from_v1 を参照。
+# 検証開始後の変更は out/trial_log.csv に「試行」として記録する。
+
+data:
+  source_prices: "Yahoo Finance (yfinance 1.7, auto_adjust=False) — 分割調整済み OHLCV・分割比率・配当"
+  source_constituents: "日経公式『日経平均株価銘柄変更履歴』PDF + 現在の構成銘柄一覧（~/python-kehai が日経サイトから 2026-09-29 に取得した一覧を複写）"
+  source_list: "JPX 東証上場銘柄一覧 data_j.xlsx（銘柄名・33業種。現時点のもの）"
+  fetch_start: "2014-01-01"        # 価格の取得開始日
+  panel_start: "2015-01-01"        # 特徴量（250日）計算用の読み込み開始日
+  constituents_from: "2014-01-01"  # この日以降の入替イベントで構成を再構成
+  data_end: "2026-09-28"           # 使うデータの最終日（「昨日までのデータ」）。以降の行は捨て、以降の分割による調整は外す
+  analysis_start_min: "2016-09-29" # 学習データの開始日（10年前）
+  index_code: "IDX_N225"
+  etf_code: "1321"
+  topix_proxy_code: "1306"
+
+# ユーザー指定の期間分割
+#   開発（学習・検証・選定）: 2016-09-29 〜 2025-08 下旬（9年。テスト開始の 22 営業日前でパージ）
+#   テスト: 2025-09-29 〜 2026-09-28（1年。1回だけ評価する）
+split:
+  holdout_months: 12        # テスト期間（コード上の名前は holdout のまま）
+  first_train_years: 4      # 開発期間内の WF: 最初の学習 4 年 → 2020-09 以降を 6 か月ごとに検証
+  fold_months: 6
+  n_candidates: [5, 10, 20] # 保有期間。N=1〜3 は前回コストで全滅したので外す
+  label_horizons: [5, 10, 20]
+  embargo_min: 5
+
+changes_from_v1:
+  - item: 期間
+    change: "開発 2016-09-29〜2025-08（9年、うち WF 検証 2020-09〜2025-08 の 10 フォールド）、テスト 2025-09-29〜2026-09-28（1年）"
+    reason: "ユーザー指定。テスト期間は前回のロックボックス（未開封）の内側なので汚れていない"
+  - item: 目的変数（N への感度対策）
+    change: "LM = 5・10・20 日の相対リターン（L3）の日次パーセンタイル順位の平均 − 0.5。モデルは保有期間に依存せず、N はバックテストの保有日数だけを決める"
+    reason: "前回は N=10 で最良でも N=5 で Sharpe が 1/3 に崩れた（パラメータ感度で不合格）"
+  - item: 選定基準
+    change: "合格候補のうち、同じ (モデル, K, θ, g_max, レジーム) の N=5,10,20 の Sharpe の平均（台地の高さ）が最大のもの"
+    reason: "単一 N の山ではなく台地を選ぶ"
+  - item: シード
+    change: "LightGBM は seed 0〜4 の 5 モデルの予測平均。シード感度は別のシード集合（100〜104, …, 500〜504）のアンサンブル間で測る"
+    reason: "前回は既定シード 42 の Sharpe がシード 0〜4 の範囲より高かった（上振れ）"
+  - item: 試行数
+    change: "4 モデル × N 3 × K 2 × θ 2 × レジーム 2 × g_max 1 = 96 通り"
+    reason: "前回 6,912 通りで DSR≈0"
+  - item: レジーム
+    change: "excl_down_lowvol: 日経平均 < SMA200 かつ 20日ボラ < 学習部 80 パーセンタイルの日は新規に買わない"
+    reason: "前回の WF で、この局面だけ年率 -27.9%（他の3局面はプラス）"
+  - item: 待機資金
+    change: "株を買っていない資金は 1321 で保有（寄り付きで売買、片道 0.06% のコスト）。B1・B3〜B6 も同じ扱い"
+    reason: "前回は B2（1321 買い持ち）に負け、資金の約 29% が遊んでいた。評価を「B2 に対する超過」にする"
+  - item: 予測値の条件（b）
+    change: "使わない（目的変数が順位なので、予測値とコストを比べられない）。タイミングはレジームフィルタだけで行う"
+    reason: "前回の成績は市場環境によるタイミングに依存していた"
+  - item: モデル
+    change: "M2r（短期リバーサル4指標の順位平均、学習なし）、M2b（採用特徴量の順位平均、符号をフォールドごとに推定）、M4r（LightGBM 回帰）、M5（LightGBM lambdarank）"
+    reason: "単純なモデルが LightGBM に劣らないかを必ず比べる"
+  - item: 構成銘柄リークテスト
+    change: "実施しない"
+    reason: "前回は参考値（ゲート外）。計算時間の制約"
+
+m2r_features: {r_up_streak: -1, r_dn_streak: 1, r_ret1: -1, r_ema_dev_5: -1}   # 前回 Step 5 で全 N・全年で符号が一致した短期リバーサル指標
+
+universe:
+  min_adv20_yen: 1.0e+8
+  min_close_unadj: 100
+  min_listed_days: 250
+
+trading:
+  initial_capital: 1.0e+7
+  capital_sensitivity: [1.0e+7, 3.0e+7]
+  K_candidates: [3, 5]
+  theta_candidates: [0.10, 0.20]
+  gmax_candidates: [0.05]
+  regime_candidates: ["none", "excl_down_lowvol"]
+  cash_in_etf: true
+  etf_flow_cost: 0.0006     # 1321 の売買（手数料 0.05% + スリッページ 0.01%）
+  fee_oneway: 0.0005
+  fee_sensitivity: [0.0, 0.0005, 0.0010]
+  cost_multipliers: [0.0, 1.0, 2.0]
+  slippage:
+    - {min_adv: 1.0e+10, rate: 0.0005}
+    - {min_adv: 3.0e+9, rate: 0.0008}
+    - {min_adv: 0.0, rate: 0.0015}
+  participation_cap: 0.01
+  lot: 100
+  risk_free: 0.0
+  tax: "考慮しない"
+
+seed: 42
+model_seeds: [0, 1, 2, 3, 4]
+seed_sensitivity: [100, 200, 300, 400, 500]   # 各値 s について seed s〜s+4 のアンサンブル
+b1_trials: 1000
+hp_trials_per_family: 5
+lgb_space: {num_leaves: [7, 31], learning_rate: [0.01, 0.1], min_data_in_leaf: [200, 2000], feature_fraction: [0.5, 0.9]}
+
+gates:   # すべて WF検証成績・コスト1倍で判定
+  G1_min_trades: 300
+  G1_min_trades_per_year: 30
+  G2_ci_lower_gt: 0.0
+  G3: "Sharpe > B1 の95パーセンタイル かつ > max(B3..B7) かつ B7 との日次差 95%CI 下限 > 0 かつ B2（1321 買い持ち）との日次差 95%CI 下限 > 0"
+  G4_pos_year_ratio: 0.60
+  G4_max_year_share: 0.50
+  G5_top5_share_max: 0.30
+  G5_ex_top1pct_expectancy_gt: 0.0
+  G5_max_sector_share: 0.50
+  G6_cost2x_expectancy_gt: 0.0
+  G7_mdd_floor: -0.35
+selection:
+  rule: "plateau"   # N=5,10,20 の Sharpe 平均が最大の合格候補。単純なモデルが台地 Sharpe で 0.2 以内なら単純な方
+  simplicity_order: {M2r: 1, M2b: 2, M4r: 4, M5: 4}
+  sharpe_margin: 0.2
+overfit_checks:
+  train_wf_ratio_min: 0.5
+  param_sensitivity_min: 0.7
+  seed_cv_max: 0.2
+  pbo_max: 0.5
+  pbo_S: 10
+  dsr_warn: 0.95
+holdout_pass:   # テスト（1年）の合格基準。すべてコスト1倍
+  cagr_gt: 0.0
+  sharpe_ratio_to_wf_min: 0.4
+  beat_b2_total_return: true    # テスト期間の総リターンが 1321 買い持ちを上回る
+bootstrap:
+  block_len: 20
+  n_boot: 1000

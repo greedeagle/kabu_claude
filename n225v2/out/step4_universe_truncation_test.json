@@ -1,0 +1,146 @@
+{
+  "n_dates": 20,
+  "n_mismatch_dates": 0,
+  "results": [
+    {
+      "date": "2017-02-21",
+      "n_full": 211,
+      "n_trunc": 211,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2017-03-02",
+      "n_full": 212,
+      "n_trunc": 212,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2017-03-23",
+      "n_full": 212,
+      "n_trunc": 212,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2017-07-28",
+      "n_full": 212,
+      "n_trunc": 212,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2018-05-02",
+      "n_full": 214,
+      "n_trunc": 214,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2020-10-07",
+      "n_full": 219,
+      "n_trunc": 219,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2020-10-28",
+      "n_full": 219,
+      "n_trunc": 219,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2020-12-21",
+      "n_full": 221,
+      "n_trunc": 221,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2021-08-18",
+      "n_full": 221,
+      "n_trunc": 221,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2021-10-04",
+      "n_full": 221,
+      "n_trunc": 221,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2023-01-26",
+      "n_full": 222,
+      "n_trunc": 222,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2023-07-11",
+      "n_full": 222,
+      "n_trunc": 222,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2023-10-02",
+      "n_full": 222,
+      "n_trunc": 222,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2023-12-07",
+      "n_full": 223,
+      "n_trunc": 223,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2024-03-18",
+      "n_full": 223,
+      "n_trunc": 223,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2024-04-19",
+      "n_full": 223,
+      "n_trunc": 223,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2024-06-21",
+      "n_full": 223,
+      "n_trunc": 223,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2025-01-20",
+      "n_full": 223,
+      "n_trunc": 223,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2025-03-14",
+      "n_full": 223,
+      "n_trunc": 223,
+      "only_full": [],
+      "only_trunc": []
+    },
+    {
+      "date": "2026-06-15",
+      "n_full": 225,
+      "n_trunc": 225,
+      "only_full": [],
+      "only_trunc": []
+    }
+  ]
+}

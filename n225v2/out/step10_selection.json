@@ -1,0 +1,15 @@
+{
+  "n_candidates": 96,
+  "n_pass": 0,
+  "gate_pass_counts": {
+    "G1": 96,
+    "G2": 40,
+    "G3": 0,
+    "G4": 86,
+    "G5": 32,
+    "G6": 56,
+    "G7": 92
+  },
+  "choice": null,
+  "selection": []
+}

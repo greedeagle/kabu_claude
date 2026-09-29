@@ -1,0 +1,59 @@
+{
+  "analysis_start": "2016-09-29",
+  "dev_end_signal": "2025-08-26",
+  "holdout_start": "2025-09-29",
+  "last_date": "2026-09-28",
+  "holdout_purge_days": 21,
+  "folds": [
+    {
+      "fold": 0,
+      "val_start": "2020-09-29",
+      "val_end": "2021-03-26"
+    },
+    {
+      "fold": 1,
+      "val_start": "2021-03-29",
+      "val_end": "2021-09-28"
+    },
+    {
+      "fold": 2,
+      "val_start": "2021-09-29",
+      "val_end": "2022-03-28"
+    },
+    {
+      "fold": 3,
+      "val_start": "2022-03-29",
+      "val_end": "2022-09-28"
+    },
+    {
+      "fold": 4,
+      "val_start": "2022-09-29",
+      "val_end": "2023-03-28"
+    },
+    {
+      "fold": 5,
+      "val_start": "2023-03-29",
+      "val_end": "2023-09-28"
+    },
+    {
+      "fold": 6,
+      "val_start": "2023-09-29",
+      "val_end": "2024-03-28"
+    },
+    {
+      "fold": 7,
+      "val_start": "2024-03-29",
+      "val_end": "2024-09-27"
+    },
+    {
+      "fold": 8,
+      "val_start": "2024-09-30",
+      "val_end": "2025-03-28"
+    },
+    {
+      "fold": 9,
+      "val_start": "2025-03-31",
+      "val_end": "2025-08-26"
+    }
+  ]
+}

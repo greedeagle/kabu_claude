@@ -1,0 +1,54 @@
+{
+  "raw_rows": 797160,
+  "panel_rows": 731604,
+  "n_codes_panel": 260,
+  "calendar_first": "2014-01-06",
+  "calendar_last": "2026-09-28",
+  "holdout_start": "2025-09-29",
+  "calendar_check": {
+    "expected_business_days": 3110,
+    "calendar_days": 3109,
+    "missing_vs_expected": {
+      "n": 1,
+      "sample": [
+        "2020-10-01"
+      ]
+    },
+    "extra_vs_expected": {
+      "n": 0,
+      "sample": []
+    }
+  },
+  "data_holes_all_untradable": [
+    "2015-12-25",
+    "2016-07-11"
+  ],
+  "index_rows": 2865,
+  "index_first": "2015-01-05",
+  "index_missing_close_days": 0,
+  "index_missing_open_days": 0,
+  "etf1321_first": "2015-01-05",
+  "etf1321_untradable_days": 1,
+  "split_miss_suspects_after_clean": 3,
+  "clean": {
+    "spike_rows": "2",
+    "inferred_splits": 3,
+    "bad_open": 1,
+    "invalid_dividends_zeroed": []
+  },
+  "invalid_split_records_ignored": [
+    [
+      "8303",
+      "2023-09-28",
+      "5e-08"
+    ]
+  ],
+  "first_date_by_code_summary": {
+    "2015": 251,
+    "2016": 2,
+    "2018": 2,
+    "2022": 3,
+    "2024": 1,
+    "2025": 1
+  }
+}

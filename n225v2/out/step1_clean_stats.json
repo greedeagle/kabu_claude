@@ -1,0 +1,23 @@
+{
+  "spike_rows": "2",
+  "inferred_splits": 3,
+  "bad_open": 1,
+  "inferred_split_list": [
+    [
+      "1306",
+      "2015-01-05",
+      10.0
+    ],
+    [
+      "8303",
+      "2023-09-27",
+      0.0
+    ],
+    [
+      "8303",
+      "2025-12-18",
+      30733332.48
+    ]
+  ],
+  "invalid_dividends_zeroed": []
+}

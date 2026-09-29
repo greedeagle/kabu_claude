@@ -1,0 +1,16 @@
+{
+  "reg": {
+    "num_leaves": 9,
+    "learning_rate": 0.027471251174267495,
+    "min_data_in_leaf": 1593,
+    "feature_fraction": 0.843439167964553,
+    "inner_ic": 0.0003345736382643224
+  },
+  "rank": {
+    "num_leaves": 26,
+    "learning_rate": 0.06649080841592168,
+    "min_data_in_leaf": 1359,
+    "feature_fraction": 0.6773656795309324,
+    "inner_ic": 0.0065089140472228265
+  }
+}
